@@ -5,7 +5,7 @@ import os
 
 outpath = "/home/jonathan/Documents/grabelab/cftr/figures/new"
 upperpath = "/home/jonathan/Documents/grabelab/cftr/independent-partial-dissociation"
-lip = True
+lip = False
 
 colors = ["g", "c", "m"]
 if lip:
