@@ -3,6 +3,7 @@ from pymol import cmd
 
 import os
 
+color_by_run = False
 outpath = "/home/jonathan/Documents/grabelab/cftr/figures/new"
 upperpath = "/home/jonathan/Documents/grabelab/cftr/independent-partial-dissociation"
 lip = False
@@ -90,6 +91,11 @@ cmd.set("sphere_scale", 0.6, "ref and name P31")
 util.cbaw("poly")
 util.cbao("resn LJP and not ref and not viewref")
 
+if color_by_run:
+    util.cbag("ref and resi 229+233+236+304+305+308+309+312+313+316+928+930+931+932+873+933")
+    util.cbac(f"resn LJP and {folders[2][0]}-{folders[2][1]} and not ref and not viewref")
+
+
 cmd.color("grey40", "ref and name P31")
 
 #view settings
@@ -112,4 +118,4 @@ cmd.set_view((\
 #     43.932701111,   51.183319092,  116.882499695,\
 #     88.953842163,  272.245513916,   20.000000000 ))
 
-cmd.png(f"{outpath}/{prefix}_end_states.png", width=2400, height=1800, ray=True)
+cmd.png(f"{outpath}/{prefix}_end_states_coloredbyrun.png", width=2400, height=1800, ray=True)
