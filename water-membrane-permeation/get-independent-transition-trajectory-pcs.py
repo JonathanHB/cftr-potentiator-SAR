@@ -5,7 +5,7 @@ import sys
 sys.path.insert(0,'../independent-transitions/')
 #put westpa_msm_functions.py in the same folder I believe
 from get_independent_transitions import get_independent_transitions
-from collect_trj_segs import walker_ancestors
+from walker_ancestors import walker_ancestors
 #Jonathan Borowsky
 #Grabe lab
 #062025
