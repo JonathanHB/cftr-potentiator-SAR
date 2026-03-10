@@ -5,7 +5,7 @@ import sys
 sys.path.insert(0,'../independent-transitions/')
 #put westpa_msm_functions.py in the same folder I believe
 from get_independent_transitions import get_independent_transitions
-
+from collect_trj_segs import walker_ancestors
 #Jonathan Borowsky
 #Grabe lab
 #062025
@@ -73,7 +73,7 @@ pathdict = {"nonlip_glpg_1": ["/media/X01Raid01/Data_Backup/home/csheen/cftr-pro
 
 abspath = os.getcwd()
 
-we_data_paths = pathdict[abspath.split("/")[-1]]
+we_data_paths = pathdict[sys.argv[1]]
 
 we_data_path_1 = we_data_paths[0]
 we_data_path_2 = we_data_paths[1]
@@ -97,11 +97,14 @@ transition_representatives = get_transition_representatives(h5path, pc_2_macrost
 print(transition_representatives)
 
 
-# #extract trajectory files of the transition representatives
-# for ms_ind, tr_set in enumerate(transition_representatives):
-#     for tr in tr_set:
-#         print(tr)
+#extract trajectory files of the transition representatives
+for ms_ind, tr_set in enumerate(transition_representatives):
+    for tr in tr_set:
+        print(tr)
 
-#         os.system(f"python3 ../../cftr-glpg1837/x01_we_data_processing/collect-trj-segs.py {we_data_path_1} {we_data_path_2} {west_fn} {tr[0]+1} {tr[1]}")
+        (ids, pcs) = walker_ancestors(h5path, tr[0]+1, tr[1])
+        print(pcs)
+
+        #os.system(f"python3 ../../cftr-glpg1837/x01_we_data_processing/collect-trj-segs.py {we_data_path_1} {we_data_path_2} {west_fn} {tr[0]+1} {tr[1]}")
 
 

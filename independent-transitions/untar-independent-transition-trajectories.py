@@ -102,6 +102,6 @@ for ms_ind, tr_set in enumerate(transition_representatives):
     for tr in tr_set:
         print(tr)
 
-        os.system(f"python3 ../../cftr-glpg1837/x01_we_data_processing/collect-trj-segs.py {we_data_path_1} {we_data_path_2} {west_fn} {tr[0]+1} {tr[1]}")
+        os.system(f"python3 ../../cftr-glpg1837/x01_we_data_processing/collect_trj_segs.py {we_data_path_1} {we_data_path_2} {west_fn} {tr[0]+1} {tr[1]}")
 
 
