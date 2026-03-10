@@ -78,6 +78,7 @@ we_data_paths = pathdict[abspath.split("/")[-1]]
 we_data_path_1 = we_data_paths[0]
 we_data_path_2 = we_data_paths[1]
 west_fn = we_data_paths[2]
+maxround = we_data_paths[3]
 
 h5path = f'{we_data_path_2}/{west_fn}'
 
