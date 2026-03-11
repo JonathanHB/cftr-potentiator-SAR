@@ -85,15 +85,9 @@ for k in pathdict.keys():
 
     h5path = f'{we_data_path_2}/{west_fn}'
 
-    print(f"reading {h5path}")
-
-    #---------------------------copy topology files for trajectory processing-----------------------------
-
-    if not os.path.exists("topology"):
-        os.mkdir(f"topology")
-        os.system(f"cp {we_data_path_1}/bstates/input/input.gro topology")
 
     #-----------------collect trajectory ancestors for each transition representative---------------------
+    print(f"reading {h5path}")
 
     #get transition representatives
     transition_representatives = get_transition_representatives(h5path, pc_2_macrostate, n_macrostates, maxround)
