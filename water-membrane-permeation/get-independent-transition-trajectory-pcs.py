@@ -25,7 +25,7 @@ from walker_ancestors import walker_ancestors
 
 def pc_2_macrostate(pc):
     pc0_min = 2.5
-    pc0_max = 20 
+    pc0_max = 35 
     
     if pc[0] < pc0_min: 
         macrostate = 0
