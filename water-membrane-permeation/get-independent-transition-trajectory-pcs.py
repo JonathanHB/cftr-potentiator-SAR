@@ -2,10 +2,10 @@ import numpy as np
 import h5py
 import os
 import sys
-
+sys.path.insert(0,'../independent-transitions/')
 #put westpa_msm_functions.py in the same folder I believe
 from get_independent_transitions import get_independent_transitions
-
+from walker_ancestors import walker_ancestors
 #Jonathan Borowsky
 #Grabe lab
 #062025
@@ -73,35 +73,34 @@ pathdict = {"nonlip_glpg_1": ["/media/X01Raid01/Data_Backup/home/csheen/cftr-pro
 
 abspath = os.getcwd()
 
-we_data_paths = pathdict[abspath.split("/")[-1]]
+#get PCs for reactive trajectories with each walker
+for k in pathdict.keys():
 
-we_data_path_1 = we_data_paths[0]
-we_data_path_2 = we_data_paths[1]
-west_fn = we_data_paths[2]
-maxround = we_data_paths[3]
+    we_data_paths = pathdict[k]
 
-h5path = f'{we_data_path_2}/{west_fn}'
+    we_data_path_1 = we_data_paths[0]
+    we_data_path_2 = we_data_paths[1]
+    west_fn = we_data_paths[2]
+    maxround = we_data_paths[3]
 
-print(f"reading {h5path}")
-
-#---------------------------copy topology files for trajectory processing-----------------------------
-
-if not os.path.exists("topology"):
-    os.mkdir(f"topology")
-    os.system(f"cp {we_data_path_1}/bstates/input/input.gro topology")
-
-#-----------------collect trajectory ancestors for each transition representative---------------------
-
-#get transition representatives
-transition_representatives = get_transition_representatives(h5path, pc_2_macrostate, n_macrostates, maxround)
-print(transition_representatives)
+    h5path = f'{we_data_path_2}/{west_fn}'
 
 
-#extract trajectory files of the transition representatives
-for ms_ind, tr_set in enumerate(transition_representatives):
-    for tr in tr_set:
-        print(tr)
+    #-----------------collect trajectory ancestors for each transition representative---------------------
+    print(f"reading {h5path}")
 
-        os.system(f"python3 ../../cftr-glpg1837/x01_we_data_processing/collect_trj_segs.py {we_data_path_1} {we_data_path_2} {west_fn} {tr[0]+1} {tr[1]}")
+    #get transition representatives
+    transition_representatives = get_transition_representatives(h5path, pc_2_macrostate, n_macrostates, maxround)
+    print(transition_representatives)
+
+    #extract trajectory files of the transition representatives
+    for ms_ind, tr_set in enumerate(transition_representatives):
+        for tr in tr_set:
+            print(tr)
+
+            (ids, pcs) = walker_ancestors(h5path, tr[0]+1, tr[1])
+
+            np.save(f"{k}_round_{tr[0]+1}_walker_{tr[1]}.npy", pcs)
+            #print(pcs)
 
 
