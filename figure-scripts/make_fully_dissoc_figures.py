@@ -3,10 +3,10 @@ from pymol import cmd
 
 import os
 
-color_by_run = False
-outpath = "/home/jonathan/Documents/grabelab/cftr/figures/new"
+#color_by_run = False
+outpath = "/home/jonathan/Documents/grabelab/cftr/revisions/maintext"
 upperpath = "/home/jonathan/Documents/grabelab/cftr/independent-partial-dissociation"
-lip = False
+lip = True
 
 colors = ["g", "c", "m"]
 if lip:
@@ -91,9 +91,13 @@ cmd.set("sphere_scale", 0.6, "ref and name P31")
 util.cbaw("poly")
 util.cbao("resn LJP and not ref and not viewref")
 
-if color_by_run:
-    util.cbag("ref and resi 229+233+236+304+305+308+309+312+313+316+928+930+931+932+873+933")
-    util.cbac(f"resn LJP and {folders[2][0]}-{folders[2][1]} and not ref and not viewref")
+util.cbay("ref and resi 873+933+229+233+236+304+305+308+309+312+313+316+928+930+931+932 and not name C+N+O+CA")
+cmd.set("stick_color", "yellow", "ref and resi 873+933+229+233+236+304+305+308+309+312+313+316+928+930+931+932 and elem C")
+cmd.set("sphere_color", "yellow", "ref and resi 873+933+229+233+236+304+305+308+309+312+313+316+928+930+931+932 and elem C")
+
+
+#if color_by_run:
+    #util.cbac(f"resn LJP and {folders[2][0]}-{folders[2][1]} and not ref and not viewref")
 
 
 cmd.color("grey40", "ref and name P31")

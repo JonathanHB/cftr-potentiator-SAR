@@ -4,11 +4,11 @@ from pymol import cmd
 
 import os
 
-outpath = "/home/jonathan/Documents/grabelab/cftr/figures/new"
+outpath = "/home/jonathan/Documents/grabelab/cftr/revisions/maintext"
 upperpath = "/home/jonathan/Documents/grabelab/cftr/independent-partial-dissociation"
 prefix = "ABBV-974"
 
-colors = ["b", "c", "g", "y", "o"]
+colors = ["b", "c", "g", "m", "o"]
 folders = [["nonlip_glpg_1", "001655-000156-ancestors-2.5A-20A"], ["nonlip_glpg_1", "001913-000187-ancestors-2.5A-20A"], ["nonlip_glpg_2", "000691-000198-ancestors-2.5A-20A"]]
 frame_data = [["bound", [0,0,0]],
               ["sideways", [245, 246, 69]],
@@ -17,6 +17,12 @@ frame_data = [["bound", [0,0,0]],
               ["unbound", [-1, 573, 207]]]
 
 trj_ind = 2
+
+if trj_ind == 0:
+    import sys
+    print("WARNING: INCOMPLETE DISSOCIATION TRAJECTORY; ABORTING")
+    sys.exit(0)
+
 folder = folders[trj_ind]
 #state_ind = 3
 
@@ -81,7 +87,7 @@ cmd.show("spheres", "ref and resi 873+933 and not name C+N+O") #926, 931, and 93
 
 cmd.show("sticks", "resname LJP and not ref")
 
-cmd.hide("sticks", "elem H and not (resname LJP and name H12+H13+H14)")
+cmd.hide("sticks", "elem H and not (resname LJP and name H14)") #H12+H13+
 cmd.hide("spheres", "elem H")
 
 #cmd.show("spheres", "name P31")
@@ -98,6 +104,10 @@ cmd.hide("spheres", "elem H")
 
 #coloring
 util.cbaw("poly")
+
+util.cbay("ref and resi 873+933+229+233+236+304+305+308+309+312+313+316+928+930+931+932 and not name C+N+O+CA")
+cmd.set("stick_color", "yellow", "ref and resi 873+933+229+233+236+304+305+308+309+312+313+316+928+930+931+932 and elem C")
+cmd.set("sphere_color", "yellow", "ref and resi 873+933+229+233+236+304+305+308+309+312+313+316+928+930+931+932 and elem C")
 
 ##mark edge of membrane
 #cmd.color("black", "resi 77+149 or resi 192+245 or resi 298+362 or resi 988+1034 or resi 857 or resi 942 or resi 1094+1154") 
