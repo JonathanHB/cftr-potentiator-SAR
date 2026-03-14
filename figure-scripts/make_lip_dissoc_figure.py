@@ -5,12 +5,12 @@ from pymol import cmd
 import os
 
 
-outpath = "/home/jonathan/Documents/grabelab/cftr/figures/new"
+outpath = "/home/jonathan/Documents/grabelab/cftr/revisions/maintext"
 upperpath = "/home/jonathan/Documents/grabelab/cftr/independent-partial-dissociation"
 prefix = "CFTRi-C10"
-taillines = True
+taillines = False
 
-colors = ["b", "c", "g", "y", "o"]
+colors = ["b", "c", "g", "m", "o"]
 folders = [["lip_glpg_1", "001798-000087-ancestors-2.5A-20A"], ["lip_glpg_1", "001998-000130-ancestors-2.5A-20A"], ["lip_glpg_2", "001986-000211-ancestors-2.5A-20A"]]
 frame_data = [["bound",             [0,   0,   0  ]],
               ["sideways",          [414, 446, 336]],
@@ -18,7 +18,12 @@ frame_data = [["bound",             [0,   0,   0  ]],
               ["h_bond_radial",     [497, 525, 448]]]
               #["last_contact",      [539, 578, -1]]] #488
 
-trj_ind = 0
+trj_ind = 1
+if trj_ind == 0:
+    import sys
+    print("WARNING: INCOMPLETE DISSOCIATION TRAJECTORY; ABORTING")
+    sys.exit(0)
+
 folder = folders[trj_ind]
 #state_ind = 3
 
@@ -111,11 +116,31 @@ cmd.hide("spheres", "elem H")
 #coloring
 util.cbaw("poly")
 
+util.cbay("ref and resi 873+933+229+233+236+304+305+308+309+312+313+316+928+930+931+932 and not name C+N+O+CA")
+cmd.set("stick_color", "yellow", "ref and resi 873+933+229+233+236+304+305+308+309+312+313+316+928+930+931+932 and elem C")
+cmd.set("sphere_color", "yellow", "ref and resi 873+933+229+233+236+304+305+308+309+312+313+316+928+930+931+932 and elem C")
 ##mark edge of membrane
 #cmd.color("black", "resi 77+149 or resi 192+245 or resi 298+362 or resi 988+1034 or resi 857 or resi 942 or resi 1094+1154") 
 
 
 #set view
+# #same as pyrazole
+# cmd.set_view((\
+#     -0.912021697,   -0.409308732,   -0.025543697,\
+#      0.393961310,   -0.857123911,   -0.331812501,\
+#      0.113928899,   -0.312682658,    0.942980587,\
+#      0.000874704,    0.003530707,  -93.388008118,\
+#     41.787548065,   41.829425812,  109.479858398,\
+#     65.212921143,  120.734275818,  -20.000000000 ))
+
+# #zoomed out pyrazole view
+# set_view (\
+#     -0.912021697,   -0.409308732,   -0.025543697,\
+#      0.393961310,   -0.857123911,   -0.331812501,\
+#      0.113928899,   -0.312682658,    0.942980587,\
+#      0.000874704,    0.003530707, -105.195419312,\
+#     41.787548065,   41.829425812,  109.479858398,\
+#     77.020317078,  132.541687012,  -20.000000000 )
 
 cmd.set_view((\
     -0.912021697,   -0.409308732,   -0.025543697,\
@@ -137,7 +162,7 @@ cmd.set_view((\
 if taillines:
     suffix="_taillines"
 else:
-    suffix=""
+    suffix="v2"
 
 cmd.png(f"{outpath}/{prefix}_dissoc_{folders[trj_ind][0]}_{folders[trj_ind][1]}{suffix}.png", width=2400, height=1800, ray=True)
 

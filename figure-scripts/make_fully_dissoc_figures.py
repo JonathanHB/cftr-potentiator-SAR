@@ -3,10 +3,10 @@ from pymol import cmd
 
 import os
 
-color_by_run = False
-outpath = "/home/jonathan/Documents/grabelab/cftr/figures/new"
+#color_by_run = False
+outpath = "/home/jonathan/Documents/grabelab/cftr/revisions/maintext"
 upperpath = "/home/jonathan/Documents/grabelab/cftr/independent-partial-dissociation"
-lip = False
+lip = True
 
 colors = ["g", "c", "m"]
 if lip:
@@ -73,9 +73,11 @@ cmd.hide("everything")
 
 cmd.show("cart", "ref and poly")
 
-cmd.show("sticks", "ref and resi 229+233+236+304+305+308+309+312+313+316+928+930+931+932 and not name C+N+O")
+cmd.show("spheres", "ref and resi 229+233+236+304+305+308+309+312+313+316+928+930+931+932 and not name C+N+O")
+cmd.show("spheres", "ref and resi 931 and name C+N+O")
+
 cmd.show("spheres", "ref and resi 229+233+236+304+305+308+309+312+313+316+928+930+931+932 and name CA")
-cmd.set("sphere_scale", 0.3, "ref and resi 229+233+236+304+305+308+309+312+313+316+928+930+931+932 and name CA")
+#cmd.set("sphere_scale", 0.3, "ref and resi 229+233+236+304+305+308+309+312+313+316+928+930+931+932 and name CA")
 
 cmd.show("spheres", "ref and resi 873+933 and not name C+N+O") #926, 931, and 932 form interactions in some cases, but not in others
 
@@ -91,9 +93,13 @@ cmd.set("sphere_scale", 0.6, "ref and name P31")
 util.cbaw("poly")
 util.cbao("resn LJP and not ref and not viewref")
 
-if color_by_run:
-    util.cbag("ref and resi 229+233+236+304+305+308+309+312+313+316+928+930+931+932+873+933")
-    util.cbac(f"resn LJP and {folders[2][0]}-{folders[2][1]} and not ref and not viewref")
+util.cbay("ref and resi 873+933+229+233+236+304+305+308+309+312+313+316+928+930+931+932")# and not name C+N+O+CA")
+#cmd.set("stick_color", "yellow", "ref and resi 873+933+229+233+236+304+305+308+309+312+313+316+928+930+931+932 and elem C")
+#cmd.set("sphere_color", "yellow", "ref and resi 873+933+229+233+236+304+305+308+309+312+313+316+928+930+931+932 and elem C")
+
+
+#if color_by_run:
+    #util.cbac(f"resn LJP and {folders[2][0]}-{folders[2][1]} and not ref and not viewref")
 
 
 cmd.color("grey40", "ref and name P31")
@@ -102,13 +108,29 @@ cmd.color("grey40", "ref and name P31")
 
 cmd.set("orthoscopic", "on")
 
+# cmd.set_view((\
+#     -0.889825165,    0.001684323,    0.456256568,\
+#     -0.456212103,   -0.018101078,   -0.889667928,\
+#      0.006769278,   -0.999811947,    0.016872900,\
+#      0.002988905,    0.005761471, -217.890579224,\
+#     39.281814575,   48.769935608,  116.061782837,\
+#    126.229881287,  309.521667480,   20.000000000 ))
+
+# cmd.set_view((\
+#     -0.889825165,    0.001684323,    0.456256568,\
+#     -0.456212103,   -0.018101078,   -0.889667928,\
+#      0.006769278,   -0.999811947,    0.016872900,\
+#      0.003023684,    0.005851763, -170.333480835,\
+#     39.796730042,   48.978267670,  118.019332886,\
+#     78.755416870,  262.047271729,   20.000000000 ))
+
 cmd.set_view((\
     -0.889825165,    0.001684323,    0.456256568,\
     -0.456212103,   -0.018101078,   -0.889667928,\
      0.006769278,   -0.999811947,    0.016872900,\
-     0.002988905,    0.005761471, -217.890579224,\
-    39.281814575,   48.769935608,  116.061782837,\
-   126.229881287,  309.521667480,   20.000000000 ))
+     0.002883136,    0.005799025, -170.322113037,\
+    36.324111938,   47.177856445,  117.664680481,\
+    78.755416870,  262.047271729,   20.000000000 ))
 
 # cmd.set_view((\
 #     -0.889825165,    0.001684323,    0.456256568,\
@@ -118,4 +140,4 @@ cmd.set_view((\
 #     43.932701111,   51.183319092,  116.882499695,\
 #     88.953842163,  272.245513916,   20.000000000 ))
 
-cmd.png(f"{outpath}/{prefix}_end_states_coloredbyrun.png", width=2400, height=1800, ray=True)
+cmd.png(f"{outpath}/{prefix}_end_states_sphereview.png", width=1800, height=1200, ray=True)
