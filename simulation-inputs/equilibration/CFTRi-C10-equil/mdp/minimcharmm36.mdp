@@ -1,0 +1,49 @@
+; minimization
+; charmm-gui recommended params for CHARMM36 membrane simulations with GROMACS
+
+; minimization restraints
+;define              = -DPOSRES -DPOSRES_FC_BB=4000.0 -DPOSRES_FC_SC=2000.0 -DPOSRES_FC_LIPID=1000.0 -DDIHRES -DDIHRES_FC=1000.0
+
+; integrator
+;integrator          = steep ; Algorithm (steep = steepest descent minimization)
+;emtol               = 1000.0 ; Stop minimization when the maximum force < 1000.0 kJ/mol/nm
+;emstep              = 0.01 ; Energy step size
+;nsteps              = 50000 ; Maximum number of (minimization) steps to perform
+
+; output control
+;nstxout             = 500 ; coordinates
+;nstenergy           = 100 ; energy
+
+; nonbonded force parameters
+;nstlist             = 20
+;cutoff-scheme       = Verlet
+;ns-type             = grid
+;coulombtype         = PME
+;pme-order           = 4
+;fourierspacing      = 0.12 ; minimum, GROMACS scales this when using -tunepme (default on)
+;rcoulomb            = 1.2 ; minimum, GROMACS scales this when using -tunepme (default on)
+;vdwtype             = cutoff
+;vdw-modifier        = Force-switch ; CHARMM requires Force-switch for vdw
+;rvdw-switch         = 1.0 ; start vdw switching
+;rvdw                = 1.2 ; finish vdw switching
+;DispCorr            = no ; only needed for lipid monolayers
+
+; other options
+;pbc                 = xyz
+
+define                  = -DPOSRES -DPOSRES_FC_BB=4000.0 -DPOSRES_FC_SC=2000.0 -DPOSRES_FC_LIPID=1000.0 -DDIHRES -DDIHRES_FC=1000.0
+integrator              = steep
+emtol                   = 1000.0
+nsteps                  = 5000
+nstlist                 = 10
+cutoff-scheme           = Verlet
+rlist                   = 0.9
+vdwtype                 = Cut-off
+vdw-modifier            = None
+DispCorr                = EnerPres
+rvdw                    = 0.9
+coulombtype             = PME
+rcoulomb                = 0.9
+;
+constraints             = h-bonds
+constraint_algorithm    = LINCS

@@ -1,0 +1,2 @@
+/wynton/home/grabe/shared/gromacs/gromacs-2020.6_CUDA10_SSE4/bin/gmx grompp -f /wynton/home/grabe/csheen/cftr-project/cftr-glpg-unbinding/scripts/../run05/mdp/nptcharmm36.mdp -o prod081.tpr -c prod080.gro -t prod080.cpt -p ../input/topol.top -n ../input/index.ndx -maxwarn 1 
+/wynton/home/grabe/shared/gromacs/gromacs-2020.6_CUDA10_SSE4/bin/gmx mdrun -v -deffnm prod081 -ntomp 8 -ntmpi 1 -nb gpu -bonded gpu -pme gpu
