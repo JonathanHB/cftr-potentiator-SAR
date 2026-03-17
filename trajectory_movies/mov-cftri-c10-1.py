@@ -89,7 +89,7 @@ trjlen = 598
 
 #for vk in views.keys(): #this does not work with moviemaker
 
-vk = "membrane_plane" #"outside_end" #
+vk = "outside_end" #"membrane_plane" #
 cmd.set_view(views[vk])
 cmd.viewport(1000,720) #will not work if in fullscreen or maximized window
 print("view set")
