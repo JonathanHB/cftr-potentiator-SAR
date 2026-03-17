@@ -8,8 +8,12 @@ def tmd_query_pymol():
 
 cmd.delete("all")
 
+#make the movie using every trj_frame_increment-th trajectory frame
+#i.e. a value of 2 takes every other frame
+trj_frame_increment = 2
+
 cmd.load("/home/jonathan/Documents/grabelab/cftr/independent-partial-dissociation/lip_glpg_2/topology/input.gro")
-cmd.load_traj("/home/jonathan/Documents/grabelab/cftr/independent-partial-dissociation/lip_glpg_2/001986-000211-trj-pbcmol-centered-tmd-rot-s10.xtc")
+cmd.load_traj("/home/jonathan/Documents/grabelab/cftr/independent-partial-dissociation/lip_glpg_2/001986-000211-trj-pbcmol-centered-tmd-rot-s10.xtc", interval = trj_frame_increment)
 
 util.cbag()
 cmd.hide("sticks")
@@ -47,6 +51,7 @@ cmd.color("firebrick", "elem O and not resn TP3")
 cmd.smooth()
 
 cmd.set("orthoscopic", "1")
+cmd.bg_color("white")
 
 views = {"membrane_plane": (\
     -0.037405413,    0.026684867,    0.998940945,\
@@ -55,52 +60,88 @@ views = {"membrane_plane": (\
     -0.000245899,   -0.000372943, -165.307769775,\
     63.780288696,   34.571521759,   81.286361694,\
     10.415435791,  238.533187866,  -20.000000000 ),
-    #      (\
-    # -0.037405413,    0.026684867,    0.998940945,\
-    #  0.998739898,   -0.032339491,    0.038263123,\
-    #  0.033326045,    0.999118030,   -0.025440669,\
-    # -0.000381544,   -0.000311308, -184.641113281,\
-    # 63.155178070,   51.376323700,   81.346603394,\
-    # 29.765714645,  257.883453369,  -20.000000000 ),
-#          (\
-#     -0.932572782,    0.047960877,   -0.357773334,\
-#      0.357721031,   -0.009932865,   -0.933771491,\
-#     -0.048339523,   -0.998798490,   -0.007893484,\
-#     -0.000004858,    0.000167369, -219.293243408,\
-#     60.418914795,   76.513587952,   81.514671326,\
-#    116.943771362,  240.037033081,  -20.000000000 ),
     "outside_end": (\
      0.297796905,    0.950370848,   -0.090073213,\
     -0.954521239,    0.297836810,   -0.013304352,\
      0.014183471,    0.089939050,    0.995845735,\
      0.000267893,   -0.000010717, -181.879959106,\
     54.426780701,   44.406246185,   90.498329163,\
-   178.872360229,  227.773956299,  -20.000000000 )
-#     (\
-#      0.297796905,    0.950370848,   -0.090073213,\
-#     -0.954521239,    0.297836810,   -0.013304352,\
-#      0.014183471,    0.089939050,    0.995845735,\
-#      0.000331383,    0.000082159, -181.872360229,\
-#     52.003627777,   56.341732025,   90.446243286,\
-#    178.872360229,  227.773956299,  -20.000000000 )
+   178.872360229,  227.773956299,  -20.000000000 ),
+    "membrane_plane_small": (\
+    -0.037405413,    0.026684867,    0.998940945,\
+     0.998739898,   -0.032339491,    0.038263123,\
+     0.033326045,    0.999118030,   -0.025440669,\
+    -0.000286520,   -0.000380380, -136.630310059,\
+    63.619785309,   38.534919739,   81.208564758,\
+   -18.268718719,  209.849044800,  -20.000000000 ),
+    "outside_end_small": (\
+     0.470223397,    0.877939403,   -0.090073213,\
+    -0.882009268,    0.471038520,   -0.013304352,\
+     0.030747997,    0.085701607,    0.995845735,\
+     0.000237361,   -0.000040471, -149.483673096,\
+    61.426898956,   40.454261780,   91.073120117,\
+   146.470474243,  195.372085571,  -20.000000000 )
    }
 
-trjlen = 596
-
-#for vk in views.keys(): #this does not work with moviemaker
-
-vk = "membrane_plane" #"outside_end" #
+vk = "outside_end_small" #"membrane_plane_small" #"membrane_plane" #
 cmd.set_view(views[vk])
-cmd.viewport(1000,720) #will not work if in fullscreen or maximized window
+width = 720
+height = 512
+cmd.viewport(width, height) #will not work if in fullscreen or maximized window
 print("view set")
 
-cmd.set("movie_fps", 15)
+#number of movie frames per second; should not affect file size
+fps = 10 #when exporting .mpg files, pymol says the lowest legal frame rate is 23.976 fps and uses that instead
+#seems to work differently for .mov and .mpg files but affects size of both
+quality = 30
 
 #turn off for view debugging
 make_movie = True
 if make_movie:
-    cmd.do(f"mset 1-{trjlen}")
-    cmd.do(f"movie.produce /home/jonathan/Documents/grabelab/cftr/cftr-potentiator-SAR/trajectory_movies/movies/abbv-cftri-c10-we2_{vk}.mpg, quality=70")
+    cmd.set("movie_fps", fps)
+    cmd.mset(f"1-{cmd.count_states()}")
+    cmd.do(f"movie.produce /home/jonathan/Documents/grabelab/cftr/cftr-potentiator-SAR/trajectory_movies/movies/cftri-c10_we2_{vk}_q{quality}_{fps}fps_{width}x{height}px_bgwhite.mov, quality={quality}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#trjlen = 596
+
+#for vk in views.keys(): #this does not work with moviemaker
+
+# vk = "membrane_plane_small" #"outside_end" #
+# cmd.set_view(views[vk])
+# cmd.viewport(1000,720) #will not work if in fullscreen or maximized window
+# print("view set")
+
+# cmd.set("movie_fps", 15)
+
+# #turn off for view debugging
+# make_movie = True
+# if make_movie:
+#     cmd.do(f"mset 1-{trjlen}")
+#     cmd.do(f"movie.produce /home/jonathan/Documents/grabelab/cftr/cftr-potentiator-SAR/trajectory_movies/movies/abbv-cftri-c10-we2_{vk}.mpg, quality=70")
 
 
 #waters 39575 and 41931 hitchhike with LJP from the protein (wherein they begin; one begins bonded to pyrazole) into bulk water
