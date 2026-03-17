@@ -76,7 +76,7 @@ cmd.show("cart", "ref and poly")
 cmd.show("spheres", "ref and resi 229+233+236+304+305+308+309+312+313+316+928+930+931+932 and not name C+N+O")
 cmd.show("spheres", "ref and resi 931 and name C+N+O")
 
-cmd.show("spheres", "ref and resi 229+233+236+304+305+308+309+312+313+316+928+930+931+932 and name CA")
+cmd.show("spheres", "ref and resi 229+233+236+304+305+308+309+312+313+316+928+930+931+932 and name CA") #<--- redundant?
 #cmd.set("sphere_scale", 0.3, "ref and resi 229+233+236+304+305+308+309+312+313+316+928+930+931+932 and name CA")
 
 cmd.show("spheres", "ref and resi 873+933 and not name C+N+O") #926, 931, and 932 form interactions in some cases, but not in others
